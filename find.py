@@ -38,11 +38,13 @@ def main(argv):
     kofam_res = csv.reader(res_file, delimiter="\t")
     kofam = []
     for row in kofam_res:
+        if len(row) != 2:
+            continue
         kofam.append(row)
 
     # Database
     kegg_file = open(database_file)
-    kegg_db = csv.reader(kegg_file, delimiter="\t")
+    kegg_db = csv.reader(kegg_file, delimiter=",")
     kegg = []
     for row in kegg_db:
         kegg.append(row)
@@ -59,7 +61,7 @@ def main(argv):
 
     # Output
     with open(output_matched, 'w', newline='\n') as f_output:
-        tsv_output = csv.writer(f_output, delimiter='\t')
+        tsv_output = csv.writer(f_output, delimiter=',')
         for row in result:
             tsv_output.writerow(row)
 
