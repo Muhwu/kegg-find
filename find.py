@@ -38,8 +38,9 @@ def main(argv):
     kofam_res = csv.reader(res_file, delimiter="\t")
     kofam = []
     for row in kofam_res:
-        if len(row) != 2:
+        if len(row) < 2:
             continue
+        row[1] = "".join(filter(str.isalnum, row[1]))
         kofam.append(row)
 
     # Database
@@ -47,12 +48,13 @@ def main(argv):
     kegg_db = csv.reader(kegg_file, delimiter=",")
     kegg = []
     for row in kegg_db:
+        row[1] = "".join(filter(str.isalnum, row[1]))
         kegg.append(row)
 
     # Filter
     result = []
     for row in kegg:
-        b = [x for x in kofam if "".join(filter(str.isalnum, x[1])) == "".join(filter(str.isalnum, row[1]))]
+        b = [x for x in kofam if x[1] == row[1]]
         if not b:
             row.append("not found")
         else:
